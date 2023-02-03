@@ -1,0 +1,1 @@
+docker run -it --rm -v C:\Users\Administrator\Desktop\targetDatabaseProject\texts_module:/myapp --env-file .env --name texts_api -p 8183:8183 texts_api
