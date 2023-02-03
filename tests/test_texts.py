@@ -1,6 +1,6 @@
 import unittest
 
-from texts_module.module.text import get_texts, Text
+from module.text import get_texts, Text
 
 
 class TestText(unittest.TestCase):
