@@ -1,17 +1,35 @@
 import json
+import logging
 from pathlib import Path
 from string import Template
 
+import requests
 from spintax import spintax
 
-from .config import PACKAGE_FOLDER
+from config import PACKAGE_FOLDER, REFERALS_API_HOST, REFERALS_API_PORT
 
 
-def get_texts() -> dict:
+def get_texts_json() -> dict:
     path = Path(PACKAGE_FOLDER, 'texts.json')
     with open(path, 'rb') as file:
         texts_config = json.load(file)
         return texts_config
+
+
+def get_referals_json() -> dict:
+    response = get_referals_response()
+    values = response.json()
+    return values
+
+
+def get_referals_response() -> requests.Response:
+    response = None
+    while response is None:
+        try:
+            response = requests.get(f'http://{REFERALS_API_HOST}:{REFERALS_API_PORT}/referals')
+            return response
+        except Exception as err:
+            logging.exception(err)
 
 
 class Text:
@@ -21,11 +39,12 @@ class Text:
         return self._fix_link(self._link)
 
     def __init__(self, lang: str, link: str, project: str):
-        json_file = get_texts()
+        texts_json: dict = get_texts_json()
+        referals_json: dict = get_referals_json()
         self._link = link
         self.project = project
-        self.spins = json_file.get('spins').get(project)
-        self.text = json_file.get('texts').get(lang)
+        self.spins = referals_json.get(project).get('spins')
+        self.text = texts_json.get(lang)
 
     def _fix_link(self, link: str):
         link = link if 'https://' in link or 'https://' in link else f'http://{link}'
@@ -36,7 +55,7 @@ class Text:
         template = Template(spinned_text)
         message = template.substitute(
             {'spins': self.spins,
-             'project': self.project.capitalize(),
+             'project': self.project,
              'link': self.link}
         )
         if not allow_stickers:

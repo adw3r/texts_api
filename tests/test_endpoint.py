@@ -2,7 +2,7 @@ import unittest
 
 import requests
 
-from module.config import PORT
+from config import PORT
 
 
 class TestEndpoint(unittest.TestCase):
@@ -12,7 +12,7 @@ class TestEndpoint(unittest.TestCase):
         params = {
             'lang': 'ru',
             'link': link,
-            'refname': 'allright'
+            'refname': 'AllRight'
         }
         url = f'http://localhost:{PORT}/text'
 
@@ -21,11 +21,10 @@ class TestEndpoint(unittest.TestCase):
 
     def test_get_test_text(self):
         link = 'google.com'
-        test = 'test'.capitalize()
         params = {
             'lang': 'ru',
             'link': link,
-            'refname': test
+            'refname': 'AllRight'
         }
         url = f'http://localhost:{PORT}/text'
 

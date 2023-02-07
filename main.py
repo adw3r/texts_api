@@ -2,8 +2,8 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse, RedirectResponse
 
-from module.config import HOST, PORT
-from module.text import Text
+from config import HOST, PORT
+from text import Text
 
 app = FastAPI()
 
