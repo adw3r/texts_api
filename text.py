@@ -33,18 +33,23 @@ def get_referals_response() -> requests.Response:
 
 
 class Text:
+    text = ''
+    spins = ''
+    project = ''
 
     @property
     def link(self):
         return self._fix_link(self._link)
 
     def __init__(self, lang: str, link: str, project: str):
-        texts_json: dict = get_texts_json()
-        referals_json: dict = get_referals_json()
         self._link = link
-        self.project = project
-        self.spins = referals_json.get(project).get('spins')
-        self.text = texts_json.get(lang)
+        referals_json: dict = get_referals_json().get(project)
+        if referals_json:
+            self.project = project
+            self.spins = referals_json.get('spins')
+        texts_json: dict = get_texts_json().get(lang)
+        if texts_json:
+            self.text = texts_json
 
     def _fix_link(self, link: str):
         link = link if 'https://' in link or 'https://' in link else f'http://{link}'
