@@ -1,16 +1,17 @@
 import uvicorn
 from fastapi import FastAPI
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.responses import HTMLResponse
+from starlette.responses import JSONResponse
 
 from config import HOST, PORT
-from text import Text
+from text import Text, get_texts_json
 
 app = FastAPI()
 
 
 @app.get('/')
 async def get_root():
-    return RedirectResponse('/docs')
+    return JSONResponse(content=get_texts_json())
 
 
 @app.get('/text')
