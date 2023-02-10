@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from starlette.responses import JSONResponse
 
-from config import HOST, PORT
+from config import HOST, PORT, DEBUG
 from text import Text, get_texts_json
 
 app = FastAPI()
@@ -21,4 +21,4 @@ async def get_text(lang: str, link: str, refname: str, with_stickers: bool = Tru
 
 
 if __name__ == '__main__':
-    uvicorn.run('main:app', host=HOST, port=int(PORT))
+    uvicorn.run('main:app', host=HOST, port=int(PORT), reload=DEBUG)
