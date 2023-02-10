@@ -6,7 +6,7 @@ from string import Template
 import requests
 from spintax import spintax
 
-from config import PACKAGE_FOLDER, REFERALS_API_HOST, REFERALS_API_PORT
+from config import PACKAGE_FOLDER, REFERRALS_API_HOST, REFERRALS_API_PORT
 
 
 def get_texts_json() -> dict:
@@ -26,7 +26,7 @@ def get_referals_response() -> requests.Response:
     response = None
     while response is None:
         try:
-            response = requests.get(f'http://{REFERALS_API_HOST}:{REFERALS_API_PORT}/referals')
+            response = requests.get(f'http://{REFERRALS_API_HOST}:{REFERRALS_API_PORT}/referals')
             return response
         except Exception as err:
             logging.exception(err)
